@@ -6,7 +6,7 @@
   <form name="parameterForm" ng-submit="saveParameters()" novalidate>
     <fieldset>
       <p>The plugin implements Twitter's Streaming API with public POST. Documentation on accepted parameters can be found <a href="https://dev.twitter.com/streaming/reference/post/statuses/filter">here</a>. <strong>At least one predicate parameter</strong> (follow, track, or location) must be added in order for the plugin to work. You may also add optional parameters of delimited and stall_warnings if you choose. The form below will validate your settings follow the Twitter API's requirements, but may not catch all errors. Please be sure to read the documentation in order to understand the parameters and their values.</p>
-      <div class="panel panel-default" ng-repeat="parameter in parameterSettings">
+      <div class="panel panel-default" ng-repeat="parameter in parameterSettings.parameters">
         <div class="panel-body">
           <div class="form-group">
             <a class="pull-right text-danger" style="font-size:20px;cursor-style:pointer;" ng-click="removeParameter($index)"><span class="glyphicon glyphicon-remove-circle"></span></a>

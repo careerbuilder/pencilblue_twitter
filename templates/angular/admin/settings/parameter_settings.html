@@ -1,12 +1,12 @@
 <script type="text/javascript">
   angular.module('pencilblueApp', [])
-  .controller('PencilBlueController', function($scope, $rootScope, $sce, $http) {
+  .controller('PencilBlueController', function($scope, $sce, $http) {
     ^angular_objects^
 
     $scope.layout = $sce.trustAsHtml($scope.parameterSettings.page_layout);
     $scope.editingObject = $scope.parameterSettings;
     $scope.twitterParameterTypes = getTwitterParameterTypes();
-    
+
     function getTwitterParameterTypes() {
       return [
         'follow',
@@ -18,29 +18,56 @@
     }
     
     $scope.addNewParameter = function() {
-      if($scope.parameterSettings.length < 5) {
-        $scope.parameterSettings.push({ type: '', value: '' });
+      if($scope.parameterSettings.parameters.length < 5) {
+        $scope.parameterSettings.parameters.push({ type: '', value: '' });
       }
     };
     
     $scope.removeParameter = function(index) {
-      $scope.parameterSettings.splice(index, 1);
-      if($scope.parameterSettings.length == 0) {
+      $scope.parameterSettings.parameters.splice(index, 1);
+      if($scope.parameterSettings.parameters.length == 0) {
         $scope.addNewParameter(); 
       }
     };
     
     $scope.saveParameters = function() {
-      $scope.saving = true;
-      $http.post('/actions/admin/plugins/settings/twitter_streaming/parameter', $scope.parameterSettings)
-      .success(function(result) {
-        $scope.successMessage = result.message;
-        $scope.saving = false;
-      })
-      .error(function(error, status) {
-        $scope.errorMessage = error.message;
-        $scope.saving = false;
-      });
+      if(validParameters($scope.parameterSettings.parameters)) {
+        $scope.errorMessage = '';
+        $scope.saving = true;
+        $http.post('/actions/admin/plugins/settings/twitter_streaming/parameter', $scope.parameterSettings)
+        .success(function(result) {
+          $scope.successMessage = result.message;
+          $scope.saving = false;
+        })
+        .error(function(error, status) {
+          $scope.errorMessage = error.message;
+          $scope.saving = false;
+        });
+      }
     };
+    
+    function validParameters(parameters) {
+      var parameterTypes = [];
+      var valid = true;
+      parameters.forEach(function(parameter) {
+        if(whiteSpaceOrEmpty(parameter.type) || whiteSpaceOrEmpty(parameter.value)) {
+          $scope.errorMessage = "Parameter type and value cannot be empty.";
+          valid = false;
+        }
+        else if(parameterTypes.indexOf(parameter.type.toString()) > -1) {
+          $scope.errorMessage = "Duplicate parameter types.";
+          valid = false;
+        }
+        parameterTypes.push(parameter.type);
+      });
+      return valid;
+    }
+           
+    function whiteSpaceOrEmpty(value) {
+      if(typeof(value) === 'undefined' || value === null || value === '') {
+        return true;
+      }
+      return false;
+    }
   });
 </script>

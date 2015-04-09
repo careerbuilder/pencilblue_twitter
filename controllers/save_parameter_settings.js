@@ -16,7 +16,6 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
           };
           var dao = new pb.DAO();
           dao.q('twitter_streaming_plugin_settings', opts, function(err, parameterSettings) {
-              pb.log.info("PARAMETER SETTINGS: " + JSON.stringify(parameterSettings));
               if (util.isError(err)) {
                   return self.reqHandler.serveError(err);
               }
@@ -25,15 +24,12 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
                   pb.DocumentCreator.update(post, parameterSettings);
               }
               else {
-                  parameterSettings = pb.DocumentCreator.create('twitter_streaming_plugin_settings', post);
-                  parameterSettings.settings_type = 'api_parameter';
+                parameterSettings = pb.DocumentCreator.create('twitter_streaming_plugin_settings', post);
+                parameterSettings.settings_type = 'api_parameter';
               }
 
               dao.save(parameterSettings, function(err, result) {
-                  pb.log.info("PARAMETER SETTINGS: " + JSON.stringify(parameterSettings));
-                  pb.log.info("RESULT: " + result);
                   if(util.isError(err))  {
-                      pb.log.error(err);
                       cb({
                           code: 500,
                           content: pb.BaseController.apiResponse(pb.BaseController.API_FAILURE, self.ls.get('ERROR_SAVING'), result)

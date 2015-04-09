@@ -22,6 +22,12 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           icon: 'chevron-left',
           href: '/admin/plugins/twitter_streaming/settings'
       }];
+      var blankParameter = {
+        parameters: [{ 
+          type: '',
+          value: ''
+        }]
+      };
 
       var opts = {
           where: {settings_type: 'api_parameter'}
@@ -31,11 +37,11 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           if(parameterSettings.length > 0) {
               parameterSettings = parameterSettings[0];
               if(typeof(parameterSettings) === "undefined") {
-                  parameterSettings = [{}];
+                  parameterSettings = blankParameter;
               }
           }
           else {
-              parameterSettings = [{}];
+            parameterSettings = blankParameter;
           }
 
           var objects = {
