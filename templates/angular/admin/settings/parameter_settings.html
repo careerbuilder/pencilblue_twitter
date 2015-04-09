@@ -1,0 +1,46 @@
+<script type="text/javascript">
+  angular.module('pencilblueApp', [])
+  .controller('PencilBlueController', function($scope, $rootScope, $sce, $http) {
+    ^angular_objects^
+
+    $scope.layout = $sce.trustAsHtml($scope.parameterSettings.page_layout);
+    $scope.editingObject = $scope.parameterSettings;
+    $scope.twitterParameterTypes = getTwitterParameterTypes();
+    
+    function getTwitterParameterTypes() {
+      return [
+        'follow',
+        'track',
+        'locations',
+        'delimited',
+        'stall_warnings'
+      ];
+    }
+    
+    $scope.addNewParameter = function() {
+      if($scope.parameterSettings.length < 5) {
+        $scope.parameterSettings.push({ type: '', value: '' });
+      }
+    };
+    
+    $scope.removeParameter = function(index) {
+      $scope.parameterSettings.splice(index, 1);
+      if($scope.parameterSettings.length == 0) {
+        $scope.addNewParameter(); 
+      }
+    };
+    
+    $scope.saveParameters = function() {
+      $scope.saving = true;
+      $http.post('/actions/admin/plugins/settings/twitter_streaming/parameter', $scope.parameterSettings)
+      .success(function(result) {
+        $scope.successMessage = result.message;
+        $scope.saving = false;
+      })
+      .error(function(error, status) {
+        $scope.errorMessage = error.message;
+        $scope.saving = false;
+      });
+    };
+  });
+</script>

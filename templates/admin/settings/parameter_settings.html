@@ -1,0 +1,32 @@
+^tmp_admin=head^
+<div class="col-md-9">
+  ^tmp_admin=elements=error_success^
+  ^tmp_admin=elements=sub_nav^
+  ^tmp_admin=elements=tab_nav^
+  <form name="parameterForm" ng-submit="saveParameters()" novalidate>
+    <fieldset>
+      <p>The plugin implements Twitter's Streaming API with public POST. Documentation on accepted parameters can be found <a href="https://dev.twitter.com/streaming/reference/post/statuses/filter">here</a>. <strong>At least one predicate parameter</strong> (follow, track, or location) must be added in order for the plugin to work. You may also add optional parameters of delimited and stall_warnings if you choose. The form below will validate your settings follow the Twitter API's requirements, but may not catch all errors. Please be sure to read the documentation in order to understand the parameters and their values.</p>
+      <div class="panel panel-default" ng-repeat="parameter in parameterSettings">
+        <div class="panel-body">
+          <div class="form-group">
+            <a class="pull-right text-danger" style="font-size:20px;cursor-style:pointer;" ng-click="removeParameter($index)"><span class="glyphicon glyphicon-remove-circle"></span></a>
+            <div class="form-group">
+              <label>^loc_PARAMETER_TYPE^</label>
+              <select class="form-control" ng-options="type for type in twitterParameterTypes" ng-model="parameter.type"></select>
+            </div>
+            <div class="form-group">
+                <label>^loc_PARAMETER_VALUE^</label>
+                <input type="text" class="form-control" ng-model="parameter.value"></input>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <a ng-click="addNewParameter()" class="btn btn-success">Add New Parameter</a>
+      </div>
+      ^tmp_admin=elements=save_button^
+    </fieldset>
+  </form>
+</div>
+^tmp_angular=admin=settings=parameter_settings^
+^tmp_admin=footer^

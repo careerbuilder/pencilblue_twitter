@@ -1,0 +1,34 @@
+{
+  "uid": "twitter_streaming",
+  "name": "Twitter Streaming Plugin",
+  "description": "Gives streaming access to tweets from Twitter using public Streaming API.",
+  "version": "0.1.0",
+  "pb_version": "0.4.x",
+  "author": {
+    "name": "Corrine Olson",
+    "email": "corrine.olson@careerbuilder.com",
+    "website": ""
+  },
+  "settings": [
+    {
+      "name": "consumer_key",
+      "value": ""
+    },
+    {
+      "name": "consumer_secret",
+      "value": ""
+    },
+    {
+      "name": "access_token_key",
+      "value": ""
+    },
+    {
+      "name": "access_token_secret",
+      "value": ""
+    }
+  ],
+  "permissions": { },
+  "main_module": {
+    "path": "twitter_streaming.js"
+  }
+}
