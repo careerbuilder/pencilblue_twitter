@@ -1,7 +1,7 @@
 {
-  "uid": "twitter_streaming",
-  "name": "Twitter Streaming Plugin",
-  "description": "Gives streaming access to tweets from Twitter using public Streaming API.",
+  "uid": "twitter",
+  "name": "Twitter Plugin",
+  "description": "Gives access to tweets from Twitter using RESTful APIs.",
   "version": "0.1.0",
   "pb_version": "0.4.x",
   "author": {
@@ -29,6 +29,6 @@
   ],
   "permissions": { },
   "main_module": {
-    "path": "twitter_streaming.js"
+    "path": "twitter.js"
   }
 }

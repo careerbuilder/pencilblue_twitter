@@ -15,7 +15,7 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
               where: {settings_type: 'api_parameter'}
           };
           var dao = new pb.DAO();
-          dao.q('twitter_streaming_plugin_settings', opts, function(err, parameterSettings) {
+          dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
               if (util.isError(err)) {
                   return self.reqHandler.serveError(err);
               }
@@ -24,7 +24,7 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
                   pb.DocumentCreator.update(post, parameterSettings);
               }
               else {
-                parameterSettings = pb.DocumentCreator.create('twitter_streaming_plugin_settings', post);
+                parameterSettings = pb.DocumentCreator.create('twitter_plugin_settings', post);
                 parameterSettings.settings_type = 'api_parameter';
               }
 
@@ -53,7 +53,7 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
       var routes = [
           {
               method: 'post',
-              path: '/actions/admin/plugins/settings/twitter_streaming/parameter',
+              path: '/actions/admin/plugins/settings/twitter/parameter',
               auth_required: true,
               access_level: pb.SecurityService.ACCESS_EDITOR,
               content_type: 'text/html'

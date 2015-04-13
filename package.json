@@ -1,7 +1,7 @@
 {
   "repository": {
     "type": "git",
-    "url": "https://github.com/silverelizard/twitter_streaming"
+    "url": "https://github.com/silverelizard/pencilblue_twitter"
   },
   "devDependencies": {
     "async": "0.2.9",
@@ -9,7 +9,7 @@
     "istanbul": "^0.3.7",
     "mocha": "^2.1.0",
     "mocha-istanbul": "^0.2.0",
-    "sinon": "^1.12.2",
+    "sinon": "^1.12.2"
   },
   "dependencies": {
     "twitter": "^1.2.5"

@@ -9,16 +9,20 @@
 
     function getTwitterParameterTypes() {
       return [
-        'follow',
-        'track',
-        'locations',
-        'delimited',
-        'stall_warnings'
+        'user_id',
+        'screen_name',
+        'since_id',
+        'count',
+        'max_id',
+        'trim_user',
+        'exclude_replies',
+        'contributor_details',
+        'include_rts'
       ];
     }
     
     $scope.addNewParameter = function() {
-      if($scope.parameterSettings.parameters.length < 5) {
+      if($scope.parameterSettings.parameters.length < $scope.twitterParameterTypes.length) {
         $scope.parameterSettings.parameters.push({ type: '', value: '' });
       }
     };
@@ -34,7 +38,7 @@
       if(validParameters($scope.parameterSettings.parameters)) {
         $scope.errorMessage = '';
         $scope.saving = true;
-        $http.post('/actions/admin/plugins/settings/twitter_streaming/parameter', $scope.parameterSettings)
+        $http.post('/actions/admin/plugins/settings/twitter/parameter', $scope.parameterSettings)
         .success(function(result) {
           $scope.successMessage = result.message;
           $scope.saving = false;
@@ -60,6 +64,10 @@
         }
         parameterTypes.push(parameter.type);
       });
+      if(valid && (parameterTypes.indexOf('user_id') == -1 || parameterTypes.indexOf('screen_name') == -1)) {
+        $scope.errorMessage = 'No user_id or screen_name defined';
+        valid = false;
+      }
       return valid;
     }
            

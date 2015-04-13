@@ -20,7 +20,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           name: 'content_settings',
           title: self.ls.get('TWITTER_SETTINGS'),
           icon: 'chevron-left',
-          href: '/admin/plugins/twitter_streaming/settings'
+          href: '/admin/plugins/twitter/settings'
       }];
       var blankParameter = {
         parameters: [{ 
@@ -33,7 +33,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           where: {settings_type: 'api_parameter'}
       };
       var dao  = new pb.DAO();
-      dao.q('twitter_streaming_plugin_settings', opts, function(err, parameterSettings) {
+      dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
           if(parameterSettings.length > 0) {
               parameterSettings = parameterSettings[0];
               if(typeof(parameterSettings) === "undefined") {
@@ -62,7 +62,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       var routes = [
           {
               method: 'get',
-              path: '/admin/plugins/twitter_streaming/settings/parameter',
+              path: '/admin/plugins/twitter/settings/parameter',
               auth_required: true,
               access_level: pb.SecurityService.ACCESS_EDITOR,
               content_type: 'text/html'
