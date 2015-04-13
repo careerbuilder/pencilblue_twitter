@@ -64,7 +64,7 @@
         }
         parameterTypes.push(parameter.type);
       });
-      if(valid && (parameterTypes.indexOf('user_id') == -1 || parameterTypes.indexOf('screen_name') == -1)) {
+      if(valid && parameterTypes.indexOf('user_id') == -1 && parameterTypes.indexOf('screen_name') == -1) {
         $scope.errorMessage = 'No user_id or screen_name defined';
         valid = false;
       }
