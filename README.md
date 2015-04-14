@@ -1,5 +1,5 @@
 # PencilBlue Twitter Plugin
-[![Code Climate](https://codeclimate.com/github/silverelizard/pencilblue_twitter/badges/gpa.svg)](https://codeclimate.com/github/silverelizard/pencilblue_twitter)
+[![Code Climate](https://codeclimate.com/github/silverelizard/pencilblue_twitter/badges/gpa.svg)](https://codeclimate.com/github/silverelizard/pencilblue_twitter) [![Test Coverage](https://codeclimate.com/github/silverelizard/pencilblue_twitter/badges/coverage.svg)](https://codeclimate.com/github/silverelizard/pencilblue_twitter)
 
 Twitter widget for PencilBlue CMS. Uses the Twitter RESTful API endpoint `/get/statuses/user_timeline`. Documentation for this endpoint can be found in  [Twitter's Developer Documentation](https://dev.twitter.com/rest/reference/get/statuses/user_timeline).
 
@@ -16,3 +16,7 @@ if(pb.PluginService.isActivePlugin('twitter')) { //checks if the twitter plugin 
   });
 }
 ```
+
+###Running Tests
+
+The plugin uses the Mocha, Sinon, Chai stack for testing. Included in the repo is a `Makefile` setting up both testing and code coverage. To run tests,  simply type `make test` into the console while in the root directory of the plugin. Code coverage is similar, simply run `make coverage` to generate an lcov report. Be sure you have lcov installed first. More information on lcov can be found [here](http://ltp.sourceforge.net/coverage/lcov.php). You can cleanup the report folders by running the `make clean` command.
