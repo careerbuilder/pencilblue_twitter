@@ -1,6 +1,6 @@
 var Twitter = require('twitter');
 module.exports = function TwitterServiceModule(pb) {
-
+  var util = pb.util;
   function TwitterService(){}
 
   TwitterService.init = function(cb){
@@ -28,6 +28,9 @@ module.exports = function TwitterServiceModule(pb) {
     var pluginService = new pb.PluginService();
     var clientInfo = {};
     pluginService.getSettings('twitter', function(err, twitterSettings) {
+      if (util.isError(err)) {
+        self.reqHandler.serveError(err);
+      }
       twitterSettings.forEach(function(setting) {
         clientInfo[setting.name] = setting.value;
       });

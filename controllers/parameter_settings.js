@@ -6,7 +6,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
   
   //inheritance
   util.inherits(ParameterSettings, pb.BaseController);
-
+  
   ParameterSettings.prototype.render = function(cb) {
       var self = this;
 
@@ -22,6 +22,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           icon: 'chevron-left',
           href: '/admin/plugins/twitter/settings'
       }];
+    
       var blankParameter = {
         parameters: [{ 
           type: '',
@@ -36,9 +37,6 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
           if(parameterSettings.length > 0) {
               parameterSettings = parameterSettings[0];
-              if(typeof(parameterSettings) === "undefined") {
-                  parameterSettings = blankParameter;
-              }
           }
           else {
             parameterSettings = blankParameter;
@@ -49,7 +47,6 @@ module.exports = function ParameterSettingsControllerModule(pb) {
               pills: pills,
               parameterSettings: parameterSettings
           };
-
           self.ts.registerLocal('angular_script', '');
           self.ts.registerLocal('angular_objects', new pb.TemplateValue(pb.ClientJs.getAngularObjects(objects), false));
           self.ts.load('admin/settings/parameter_settings', function(err, result) {
