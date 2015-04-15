@@ -28,7 +28,7 @@
     }
   ],
   "dependencies": {
-    "twitter": "^1.2.5"
+    "twitter": "1.2.5"
   },
   "permissions": { },
   "main_module": {
