@@ -26,15 +26,11 @@ module.exports = function TwitterServiceModule(pb) {
   
   function getClientInfo(cb) {
     var pluginService = new pb.PluginService();
-    var clientInfo = {};
-    pluginService.getSettings('twitter', function(err, twitterSettings) {
+    pluginService.getSettingsKV('twitter', function(err, twitterSettings) {
       if (util.isError(err)) {
         self.reqHandler.serveError(err);
       }
-      twitterSettings.forEach(function(setting) {
-        clientInfo[setting.name] = setting.value;
-      });
-      cb(clientInfo);
+      cb(twitterSettings);
     });
   }
   

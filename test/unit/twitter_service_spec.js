@@ -15,7 +15,7 @@ describe('Twitter Service', function () {
     twitterService = new TwitterService();
     daoQStub = sinon.stub(pb.DAO.prototype, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
-    pluginSettingStub = sinon.stub(pb.PluginService.prototype, 'getSettings');
+    pluginSettingStub = sinon.stub(pb.PluginService.prototype, 'getSettingsKV');
     pluginSettingStub.onCall(0).yields(null, getValidSettingResponse());
     twitterStub = sinon.stub(Twitter.prototype, 'get');
     twitterStub.onCall(0).yields(null, 'tweets', 'response');
@@ -76,22 +76,10 @@ function getValidDAOResponse() {
 }
 
 function getValidSettingResponse() {
-  return [
-    {
-      name:"consumer_key",
-      value:"consumer_key_value"
-    },
-    {
-      name:"consumer_secret",
-      value:"consumer_secret_value"
-    },
-    {
-      name:"access_token_key",
-      value:"access_token_key_value"
-    },
-    {
-      name:"access_token_secret",
-      value:"access_token_secret_value"
-    }
-  ];
+  return {
+    consumer_key:"consumer_key_value",
+    consumer_secret:"consumer_secret_value",
+    access_token_key:"access_token_key_value",
+    access_token_secret:"access_token_secret_value"
+  };
 }

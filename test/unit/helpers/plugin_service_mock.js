@@ -1,7 +1,7 @@
 module.exports = function PluginServiceModule() {
   function PluginService(){};
 
-  PluginService.prototype.getSettings = function(pluginName, cb) {
+  PluginService.prototype.getSettingsKV = function(pluginName, cb) {
 	cb('settings');
   };
 
