@@ -39,7 +39,8 @@ describe('Twitter Service', function () {
   });
   
   it('should get tweets', function(done) {
-    twitterService.getTweets(function(tweets) {
+    twitterService.getTweets(function(err, tweets) {
+      expect(err).to.equal(null);
       expect(tweets).to.not.equal(null);
       expect(tweets).to.equal('tweets');
       done();
