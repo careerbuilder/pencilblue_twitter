@@ -25,6 +25,10 @@
     {
       "name": "access_token_secret",
       "value": ""
+    },
+    {
+      "name": "request_timeout_in_milliseconds",
+      "value": 5000
     }
   ],
   "dependencies": {
