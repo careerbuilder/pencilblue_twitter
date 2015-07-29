@@ -9,7 +9,7 @@ describe('Parameter Settings Controller', function () {
 
   before(function () {
     parameterSettings = new ParameterSettings();
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    var daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     daoQStub.onCall(1).yields(null, []);
   });

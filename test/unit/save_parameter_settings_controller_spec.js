@@ -9,11 +9,12 @@ describe('Save Parameter Settings Controller', function () {
 
   before(function () {
     saveParameterSettings = new SaveParameterSettings();
+    saveParameterSettings.body = {};
     sinon.stub(pb.BaseController.prototype, 'getJSONPostParams').yields(null, getValidPostResponse());
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    var daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     daoQStub.onCall(1).yields(null, []);
-    var daoSaveStub = sinon.stub(pb.DAO.prototype, 'save');
+    var daoSaveStub = sinon.stub(pb.SiteQueryService.prototype, 'save');
     daoSaveStub.yields(null, '');
   });
 
@@ -49,9 +50,8 @@ describe('Save Parameter Settings Controller', function () {
   });
 
   after(function() {
-    pb.BaseController.prototype.getJSONPostParams.restore();
-    pb.DAO.prototype.q.restore();
-    pb.DAO.prototype.save.restore();
+    pb.SiteQueryService.prototype.q.restore();
+    pb.SiteQueryService.prototype.save.restore();
   });
 });
 
@@ -60,10 +60,10 @@ describe('Save Parameter Settings Save Error', function () {
 
   before(function () {
     saveParameterSettings = new SaveParameterSettings();
-    sinon.stub(pb.BaseController.prototype, 'getJSONPostParams').yields(null, getValidPostResponse());
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    saveParameterSettings.body = getValidPostResponse();
+    var daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.yields(null, getValidDAOResponse());
-    var daoSaveStub = sinon.stub(pb.DAO.prototype, 'save');
+    var daoSaveStub = sinon.stub(pb.SiteQueryService.prototype, 'save');
     daoSaveStub.yields(new Error(), 'there was an error');
   });
   
@@ -76,9 +76,8 @@ describe('Save Parameter Settings Save Error', function () {
   });
   
   after(function() {
-    pb.BaseController.prototype.getJSONPostParams.restore();
-    pb.DAO.prototype.q.restore();
-    pb.DAO.prototype.save.restore();
+    pb.SiteQueryService.prototype.q.restore();
+    pb.SiteQueryService.prototype.save.restore();
   });
 });
 
