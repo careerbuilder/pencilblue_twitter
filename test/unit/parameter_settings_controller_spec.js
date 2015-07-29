@@ -1,5 +1,6 @@
 var pb = require('./helpers/pb_mock').getMockPB();
 var ParameterSettings = require('../../controllers/parameter_settings')(pb);
+var SQS = require('./helpers/site_query_service_mock')();
 var chai = require('chai');
 var sinon = require('sinon');
 var expect = chai.expect;
@@ -9,7 +10,8 @@ describe('Parameter Settings Controller', function () {
 
   before(function () {
     parameterSettings = new ParameterSettings();
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    parameterSettings.siteQueryService = new SQS();
+    var daoQStub = sinon.stub(parameterSettings.siteQueryService, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     daoQStub.onCall(1).yields(null, []);
   });

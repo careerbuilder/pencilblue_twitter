@@ -1,5 +1,5 @@
 {
-  "uid": "twitter",
+  "uid": "pencilblue_twitter",
   "name": "Twitter Plugin",
   "description": "Gives access to tweets from Twitter using RESTful APIs.",
   "version": "0.1.0",
