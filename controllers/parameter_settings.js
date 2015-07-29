@@ -1,5 +1,12 @@
 module.exports = function ParameterSettingsControllerModule(pb) {
-  function ParameterSettings() {}
+  function ParameterSettings(options) {
+    if (options){
+      this.site = options.site ? options.site : '';
+    }else {
+      this.site = '';
+    }
+    this.siteQueryService = new pb.SiteQueryService(this.site, true);
+  }
 
   //dependencies
   var util = pb.util;
@@ -33,8 +40,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       var opts = {
           where: {settings_type: 'api_parameter'}
       };
-      var dao  = new pb.DAO();
-      dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
+      self.siteQueryService.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
           if(parameterSettings.length > 0) {
               parameterSettings = parameterSettings[0];
           }
@@ -69,4 +75,4 @@ module.exports = function ParameterSettingsControllerModule(pb) {
   };
 
   return ParameterSettings;
-}
+};

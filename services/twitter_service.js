@@ -1,7 +1,14 @@
 var Twitter = require('twitter');
 module.exports = function TwitterServiceModule(pb) {
   var util = pb.util;
-  function TwitterService(){}
+  function TwitterService(options){
+    if (options){
+      this.site = options.site ? options.site : '';
+    }else {
+      this.site = '';
+    }
+    this.siteQueryService = new pb.SiteQueryService(this.site, true);
+  }
 
   TwitterService.init = function(cb){
     pb.log.debug("TwitterService: Initialized");
@@ -13,7 +20,7 @@ module.exports = function TwitterServiceModule(pb) {
   };
 
   TwitterService.prototype.getTweets = function(cb){
-    getParameters(function(paramError, parameters) {
+    getParameters(this, function(paramError, parameters) {
       if (util.isError(paramError)) {
         cb(paramError, []);
       }
@@ -27,7 +34,7 @@ module.exports = function TwitterServiceModule(pb) {
   };
   
   function getClientInfo(cb) {
-    var pluginService = new pb.PluginService();
+    var pluginService = new pb.PluginService(this.site);
     pluginService.getSettingsKV('twitter', function(err, twitterSettings) {
       if (util.isError(err)) {
         cb(err, null);
@@ -42,13 +49,12 @@ module.exports = function TwitterServiceModule(pb) {
     });
   }
   
-  function getParameters(cb) {
+  function getParameters(self, cb) {
     var parameters = {};
-    var dao = new pb.DAO();
     var opts = {
       where: {settings_type: 'api_parameter'}
     };
-    dao.q('twitter_plugin_settings', opts, function(err, settings) {
+    self.siteQueryService.q('twitter_plugin_settings', opts, function(err, settings) {
       if (util.isError(err)) {
         cb(err, null);
       }

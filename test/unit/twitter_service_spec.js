@@ -13,7 +13,8 @@ describe('Twitter Service', function () {
   
   before(function () {
     twitterService = new TwitterService();
-    daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    twitterService.siteQueryService = new pb.SiteQueryService();
+    daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     pluginSettingStub = sinon.stub(pb.PluginService.prototype, 'getSettingsKV');
     pluginSettingStub.onCall(0).yields(null, getValidSettingResponse());
