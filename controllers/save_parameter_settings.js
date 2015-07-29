@@ -1,14 +1,7 @@
 module.exports = function SaveParameterSettingsControllerModule(pb) {
   var util = pb.util;
 
-  function SaveParameterSettings(options) {
-    if (options){
-      this.site = options.site ? options.site : '';
-    }else {
-      this.site = '';
-    }
-    this.siteQueryService = new pb.SiteQueryService(this.site, true);
-  }
+  function SaveParameterSettings() {}
 
   //inheritance
   util.inherits(SaveParameterSettings, pb.BaseController);

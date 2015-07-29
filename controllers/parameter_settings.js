@@ -1,12 +1,6 @@
 module.exports = function ParameterSettingsControllerModule(pb) {
-  function ParameterSettings(options) {
-    if (options){
-      this.site = options.site ? options.site : '';
-    }else {
-      this.site = '';
-    }
-    this.siteQueryService = new pb.SiteQueryService(this.site, true);
-  }
+  function ParameterSettings() {}
+
 
   //dependencies
   var util = pb.util;
