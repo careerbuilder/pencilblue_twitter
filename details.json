@@ -3,7 +3,7 @@
   "name": "Twitter Plugin",
   "description": "Gives access to tweets from Twitter using RESTful APIs.",
   "version": "0.1.0",
-  "pb_version": "0.4.x",
+  "pb_version": "0.5.x",
   "author": {
     "name": "Corrine Olson",
     "email": "corrine.olson@careerbuilder.com",
