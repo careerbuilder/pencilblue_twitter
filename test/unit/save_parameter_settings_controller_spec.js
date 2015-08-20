@@ -9,7 +9,7 @@ describe('Save Parameter Settings Controller', function () {
   var saveParameterSettings;
 
   before(function () {
-    saveParameterSettings = new SaveParameterSettings();
+    saveParameterSettings = new SaveParameterSettings({site:'twit'});
     saveParameterSettings.body = {};
     saveParameterSettings.siteQueryService = new SQS();
     var daoQStub = sinon.stub(saveParameterSettings.siteQueryService, 'q');
@@ -58,10 +58,9 @@ describe('Save Parameter Settings Save Error', function () {
   before(function () {
     saveParameterSettings = new SaveParameterSettings();
     saveParameterSettings.body = getValidPostResponse();
-    saveParameterSettings.siteQueryService = new SQS();
-    var daoQStub = sinon.stub(saveParameterSettings.siteQueryService, 'q');
+    var daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.yields(null, getValidDAOResponse());
-    var daoSaveStub = sinon.stub(saveParameterSettings.siteQueryService, 'save');
+    var daoSaveStub = sinon.stub(pb.SiteQueryService.prototype, 'save');
     daoSaveStub.yields(new Error(), 'there was an error');
   });
   

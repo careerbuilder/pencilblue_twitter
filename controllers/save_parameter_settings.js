@@ -8,6 +8,7 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
 
   SaveParameterSettings.prototype.render = function(cb) {
     var self = this;
+    self.siteQueryService = new pb.SiteQueryService({site:self.site, onlyThisSite:true});
 
     delete self.body._id;
 
@@ -52,7 +53,7 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
     var routes = [
       {
         method: 'post',
-        path: '/actions/admin/plugins/settings/twitter/parameter',
+        path: '/actions/admin/plugins/settings/pencilblue_twitter/parameter',
         auth_required: true,
         request_body: ['application/json'],
         access_level: pb.SecurityService.ACCESS_EDITOR,

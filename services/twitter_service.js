@@ -2,12 +2,12 @@ var Twitter = require('twitter');
 module.exports = function TwitterServiceModule(pb) {
   var util = pb.util;
   function TwitterService(options){
-    if (options){
-      this.site = options.site ? options.site : '';
-    }else {
-      this.site = '';
+    if (options) {
+      this.site = options.site || pb.SiteService.GLOBAL_SITE;
+    } else {
+      this.site = pb.SiteService.GLOBAL_SITE;
     }
-    this.siteQueryService = new pb.SiteQueryService(this.site, true);
+    this.siteQueryService = new pb.SiteQueryService({site:this.site, onlyThisSite:true});
   }
 
   TwitterService.init = function(cb){
@@ -20,12 +20,13 @@ module.exports = function TwitterServiceModule(pb) {
   };
 
   TwitterService.prototype.getTweets = function(cb){
-    getParameters(this, function(paramError, parameters) {
+    var self = this;
+    getParameters(self, function(paramError, parameters) {
       if (util.isError(paramError)) {
         cb(paramError, []);
       }
       else {
-        getClientInfo(function(clientError, clientInfo) {
+        getClientInfo(self, function(clientError, clientInfo) {
           if (util.isError(clientError)) { cb(clientError, []); }
           else { callTwitter(clientInfo, parameters, cb); }
         });
@@ -33,9 +34,9 @@ module.exports = function TwitterServiceModule(pb) {
     });
   };
   
-  function getClientInfo(cb) {
-    var pluginService = new pb.PluginService(this.site);
-    pluginService.getSettingsKV('twitter', function(err, twitterSettings) {
+  function getClientInfo(self, cb) {
+    var pluginService = new pb.PluginService({site:self.site});
+    pluginService.getSettingsKV('pencilblue_twitter', function(err, twitterSettings) {
       if (util.isError(err)) {
         cb(err, null);
       }
