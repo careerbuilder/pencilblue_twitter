@@ -13,7 +13,7 @@ describe('Twitter Service', function () {
       twitterStub;
   
   before(function () {
-    twitterService = new TwitterService();
+    twitterService = new TwitterService({site:'twit'});
     twitterService.siteQueryService = new SQS();
     daoQStub = sinon.stub(twitterService.siteQueryService, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
