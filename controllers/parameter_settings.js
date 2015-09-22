@@ -18,7 +18,6 @@
 module.exports = function ParameterSettingsControllerModule(pb) {
   function ParameterSettings() {}
 
-
   //dependencies
   var util = pb.util;
   
@@ -27,7 +26,6 @@ module.exports = function ParameterSettingsControllerModule(pb) {
   
   ParameterSettings.prototype.render = function(cb) {
       var self = this;
-      self.siteQueryService = new pb.SiteQueryService({site:self.site, onlyThisSite:true});
 
       var content = {
           content_type: "text/html",
@@ -39,7 +37,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           name: 'content_settings',
           title: self.ls.get('TWITTER_SETTINGS'),
           icon: 'chevron-left',
-          href: '/admin/plugins/pencilblue_twitter/settings'
+          href: '/admin/plugins/twitter/settings'
       }];
     
       var blankParameter = {
@@ -52,7 +50,8 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       var opts = {
           where: {settings_type: 'api_parameter'}
       };
-      self.siteQueryService.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
+      var dao  = new pb.DAO();
+      dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
           if(parameterSettings.length > 0) {
               parameterSettings = parameterSettings[0];
           }
@@ -77,7 +76,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       var routes = [
           {
               method: 'get',
-              path: '/admin/plugins/pencilblue_twitter/settings/parameter',
+              path: '/admin/plugins/twitter/settings/parameter',
               auth_required: true,
               access_level: pb.SecurityService.ACCESS_EDITOR,
               content_type: 'text/html'
@@ -87,4 +86,4 @@ module.exports = function ParameterSettingsControllerModule(pb) {
   };
 
   return ParameterSettings;
-};
+}
