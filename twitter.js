@@ -28,14 +28,14 @@ module.exports = function TwitterModule(pb){
   };
 
   Twitter.onStartup = function(cb) {
-    pb.AdminSubnavService.registerFor('plugin_settings', function(navKey, localization, plugin) {
-      if(plugin.uid === 'twitter') {
+    pb.AdminSubnavService.registerFor('plugin_settings', function(navKey, localization, data) {
+      if(data.plugin.uid === 'pencilblue_twitter') {
         return [
           {
             name: 'parameter_settings',
             title: 'Parameter settings',
             icon: 'twitter',
-            href: '/admin/plugins/twitter/settings/parameter'
+            href: '/admin/plugins/pencilblue_twitter/settings/parameter'
           }
         ];
       }

@@ -17,6 +17,7 @@
 
 var pb = require('./helpers/pb_mock').getMockPB();
 var SaveParameterSettings = require('../../controllers/save_parameter_settings')(pb);
+var SQS = require('./helpers/site_query_service_mock')();
 var chai = require('chai');
 var sinon = require('sinon');
 var expect = chai.expect;
@@ -25,12 +26,13 @@ describe('Save Parameter Settings Controller', function () {
   var saveParameterSettings;
 
   before(function () {
-    saveParameterSettings = new SaveParameterSettings();
-    sinon.stub(pb.BaseController.prototype, 'getJSONPostParams').yields(null, getValidPostResponse());
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    saveParameterSettings = new SaveParameterSettings({site:'twit'});
+    saveParameterSettings.body = {};
+    saveParameterSettings.siteQueryService = new SQS();
+    var daoQStub = sinon.stub(saveParameterSettings.siteQueryService, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     daoQStub.onCall(1).yields(null, []);
-    var daoSaveStub = sinon.stub(pb.DAO.prototype, 'save');
+    var daoSaveStub = sinon.stub(saveParameterSettings.siteQueryService, 'save');
     daoSaveStub.yields(null, '');
   });
 
@@ -65,11 +67,6 @@ describe('Save Parameter Settings Controller', function () {
     });
   });
 
-  after(function() {
-    pb.BaseController.prototype.getJSONPostParams.restore();
-    pb.DAO.prototype.q.restore();
-    pb.DAO.prototype.save.restore();
-  });
 });
 
 describe('Save Parameter Settings Save Error', function () {
@@ -77,10 +74,10 @@ describe('Save Parameter Settings Save Error', function () {
 
   before(function () {
     saveParameterSettings = new SaveParameterSettings();
-    sinon.stub(pb.BaseController.prototype, 'getJSONPostParams').yields(null, getValidPostResponse());
-    var daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    saveParameterSettings.body = getValidPostResponse();
+    var daoQStub = sinon.stub(pb.SiteQueryService.prototype, 'q');
     daoQStub.yields(null, getValidDAOResponse());
-    var daoSaveStub = sinon.stub(pb.DAO.prototype, 'save');
+    var daoSaveStub = sinon.stub(pb.SiteQueryService.prototype, 'save');
     daoSaveStub.yields(new Error(), 'there was an error');
   });
   
@@ -91,12 +88,7 @@ describe('Save Parameter Settings Save Error', function () {
       done();
     });
   });
-  
-  after(function() {
-    pb.BaseController.prototype.getJSONPostParams.restore();
-    pb.DAO.prototype.q.restore();
-    pb.DAO.prototype.save.restore();
-  });
+
 });
 
 function getValidPostResponse() {

@@ -18,6 +18,7 @@
 var Twitter = require('twitter');
 var pb = require('./helpers/pb_mock').getMockPB();
 var TwitterService = require('../../services/twitter_service')(pb);
+var SQS = require('./helpers/site_query_service_mock')();
 var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
@@ -29,8 +30,9 @@ describe('Twitter Service', function () {
       twitterStub;
   
   before(function () {
-    twitterService = new TwitterService();
-    daoQStub = sinon.stub(pb.DAO.prototype, 'q');
+    twitterService = new TwitterService({site:'twit'});
+    twitterService.siteQueryService = new SQS();
+    daoQStub = sinon.stub(twitterService.siteQueryService, 'q');
     daoQStub.onCall(0).yields(null, getValidDAOResponse());
     pluginSettingStub = sinon.stub(pb.PluginService.prototype, 'getSettingsKV');
     pluginSettingStub.onCall(0).yields(null, getValidSettingResponse());

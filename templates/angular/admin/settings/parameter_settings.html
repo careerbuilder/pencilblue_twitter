@@ -38,7 +38,7 @@
       if(validParameters($scope.parameterSettings.parameters)) {
         $scope.errorMessage = '';
         $scope.saving = true;
-        $http.post('/actions/admin/plugins/settings/twitter/parameter', $scope.parameterSettings)
+        $http.post('/actions/admin/plugins/settings/pencilblue_twitter/parameter', $scope.parameterSettings)
         .success(function(result) {
           $scope.successMessage = result.message;
           $scope.saving = false;
