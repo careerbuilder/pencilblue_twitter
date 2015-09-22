@@ -20,8 +20,7 @@ module.exports.getMockPB = function () {
   var baseController = require('./base_controller_mock')(),
       templateService = require('./template_service_mock'),
       pluginService = require('./plugin_service_mock')(),
-      dao = require('./dao_mock')(),
-      siteQueryService = require('./site_query_service_mock')();
+      dao = require('./dao_mock')();
   var pb = {
     AdminNavigation: {
       get: function(session, nav, ls) {
@@ -52,7 +51,6 @@ module.exports.getMockPB = function () {
     SecurityService: {
       ACCESS_EDITOR: "ACCESS_EDITOR"
     },
-    SiteQueryService: siteQueryService,
     TemplateService : templateService,
     util : util
   };

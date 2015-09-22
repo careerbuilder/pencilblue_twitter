@@ -16,8 +16,6 @@
  */
 
 module.exports = function BaseControllerModule() {
-  var Site_Query_Service_Mock = require('./site_query_service_mock');
-
   function BaseController(){};
 
   BaseController.prototype.init = function(props, cb) {
@@ -48,9 +46,7 @@ module.exports = function BaseControllerModule() {
   BaseController.getContentSanitizationRules = function() {
     return {};
   };
-
-  BaseController.prototype.siteQueryService = Site_Query_Service_Mock;
-
+  
   BaseController.apiResponse = function(cd, msg, dta) {
     var response = {code: cd, message: msg, data: dta};
     return JSON.stringify(response);

@@ -18,14 +18,7 @@
 var Twitter = require('twitter');
 module.exports = function TwitterServiceModule(pb) {
   var util = pb.util;
-  function TwitterService(options){
-    if (options) {
-      this.site = options.site || pb.SiteService.GLOBAL_SITE;
-    } else {
-      this.site = pb.SiteService.GLOBAL_SITE;
-    }
-    this.siteQueryService = new pb.SiteQueryService({site:this.site, onlyThisSite:true});
-  }
+  function TwitterService(){}
 
   TwitterService.init = function(cb){
     pb.log.debug("TwitterService: Initialized");
@@ -37,13 +30,12 @@ module.exports = function TwitterServiceModule(pb) {
   };
 
   TwitterService.prototype.getTweets = function(cb){
-    var self = this;
-    getParameters(self, function(paramError, parameters) {
+    getParameters(function(paramError, parameters) {
       if (util.isError(paramError)) {
         cb(paramError, []);
       }
       else {
-        getClientInfo(self, function(clientError, clientInfo) {
+        getClientInfo(function(clientError, clientInfo) {
           if (util.isError(clientError)) { cb(clientError, []); }
           else { callTwitter(clientInfo, parameters, cb); }
         });
@@ -51,9 +43,9 @@ module.exports = function TwitterServiceModule(pb) {
     });
   };
   
-  function getClientInfo(self, cb) {
-    var pluginService = new pb.PluginService({site:self.site});
-    pluginService.getSettingsKV('pencilblue_twitter', function(err, twitterSettings) {
+  function getClientInfo(cb) {
+    var pluginService = new pb.PluginService();
+    pluginService.getSettingsKV('twitter', function(err, twitterSettings) {
       if (util.isError(err)) {
         cb(err, null);
       }
@@ -67,12 +59,13 @@ module.exports = function TwitterServiceModule(pb) {
     });
   }
   
-  function getParameters(self, cb) {
+  function getParameters(cb) {
     var parameters = {};
+    var dao = new pb.DAO();
     var opts = {
       where: {settings_type: 'api_parameter'}
     };
-    self.siteQueryService.q('twitter_plugin_settings', opts, function(err, settings) {
+    dao.q('twitter_plugin_settings', opts, function(err, settings) {
       if (util.isError(err)) {
         cb(err, null);
       }

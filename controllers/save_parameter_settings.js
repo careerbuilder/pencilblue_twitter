@@ -25,39 +25,39 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
 
   SaveParameterSettings.prototype.render = function(cb) {
     var self = this;
-    self.siteQueryService = new pb.SiteQueryService({site:self.site, onlyThisSite:true});
+    self.getJSONPostParams(function(err, post) {
+      delete post._id;
 
-    delete self.body._id;
-
-    var opts = {
-        where: {settings_type: 'api_parameter'}
-    };
-    self.siteQueryService.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
-      if (util.isError(err)) {
-        return self.reqHandler.serveError(err);
-      }
-      if(parameterSettings.length > 0) {
-        parameterSettings = parameterSettings[0];
-        pb.DocumentCreator.update(self.body, parameterSettings);
-      }
-      else {
-        parameterSettings = pb.DocumentCreator.create('twitter_plugin_settings', self.body);
-        parameterSettings.settings_type = 'api_parameter';
-      }
-
-      self.siteQueryService.save(parameterSettings, function(err, result) {
-        if(util.isError(err))  {
-          cb({
-            code: 500,
-            content: pb.BaseController.apiResponse(pb.BaseController.API_FAILURE, self.ls.get('ERROR_SAVING'), result)
-          });
-          return;
+      var opts = {
+          where: {settings_type: 'api_parameter'}
+      };
+      var dao = new pb.DAO();
+      dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
+        if (util.isError(err)) {
+          return self.reqHandler.serveError(err);
+        }
+        if(parameterSettings.length > 0) {
+          parameterSettings = parameterSettings[0];
+          pb.DocumentCreator.update(post, parameterSettings);
+        }
+        else {
+          parameterSettings = pb.DocumentCreator.create('twitter_plugin_settings', post);
+          parameterSettings.settings_type = 'api_parameter';
         }
 
-        cb({content: pb.BaseController.apiResponse(pb.BaseController.API_SUCCESS, self.ls.get('TWITTER_SETTINGS') + ' ' + self.ls.get('SAVED'))});
+        dao.save(parameterSettings, function(err, result) {
+          if(util.isError(err))  {
+            cb({
+              code: 500,
+              content: pb.BaseController.apiResponse(pb.BaseController.API_FAILURE, self.ls.get('ERROR_SAVING'), result)
+            });
+            return;
+          }
+
+          cb({content: pb.BaseController.apiResponse(pb.BaseController.API_SUCCESS, self.ls.get('TWITTER_SETTINGS') + ' ' + self.ls.get('SAVED'))});
+        });
       });
     });
-
   };
 
   SaveParameterSettings.prototype.getSanitizationRules = function() {
@@ -70,9 +70,8 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
     var routes = [
       {
         method: 'post',
-        path: '/actions/admin/plugins/settings/pencilblue_twitter/parameter',
+        path: '/actions/admin/plugins/settings/twitter/parameter',
         auth_required: true,
-        request_body: ['application/json'],
         access_level: pb.SecurityService.ACCESS_EDITOR,
         content_type: 'text/html'
       }
