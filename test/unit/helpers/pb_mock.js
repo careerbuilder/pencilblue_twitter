@@ -4,7 +4,8 @@ module.exports.getMockPB = function () {
       templateService = require('./template_service_mock'),
       pluginService = require('./plugin_service_mock')(),
       dao = require('./dao_mock')(),
-      siteQueryService = require('./site_query_service_mock')();
+      siteQueryService = require('./site_query_service_mock')(),
+      localization = require('./localization_service_mock')();
   var pb = {
     AdminNavigation: {
       get: function(session, nav, ls) {
@@ -26,6 +27,7 @@ module.exports.getMockPB = function () {
       },
       update: function() {}
     },
+    Localization: localization,
     log: {
       info: function () {},
       error: function () {},
@@ -34,6 +36,9 @@ module.exports.getMockPB = function () {
     PluginService: pluginService,
     SecurityService: {
       ACCESS_EDITOR: "ACCESS_EDITOR"
+    },
+    SiteService: {
+      GLOBAL_SITE:'global'
     },
     SiteQueryService: siteQueryService,
     TemplateService : templateService,

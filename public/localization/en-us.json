@@ -1,5 +1,7 @@
 {
-  "TWITTER_SETTINGS": "Return to Twitter Settings",
   "PARAMETER_TYPE": "Parameter Type",
-  "PARAMETER_VALUE": "Parameter Value"
+  "PARAMETER_VALUE": "Parameter Value",
+  "TWITTER": "TWITTER",
+  "TWITTER_SETTINGS": "Return to Twitter Settings",
+  "TWITTER_TITLE": "Title"
 }
