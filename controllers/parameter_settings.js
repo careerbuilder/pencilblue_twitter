@@ -12,11 +12,6 @@ module.exports = function ParameterSettingsControllerModule(pb) {
       var self = this;
       self.siteQueryService = new pb.SiteQueryService({site:self.site, onlyThisSite:true});
 
-      var content = {
-          content_type: "text/html",
-          code: 200
-      };
-
       var pills = [
       {
           name: 'content_settings',
@@ -50,7 +45,7 @@ module.exports = function ParameterSettingsControllerModule(pb) {
           };
           self.ts.registerLocal('angular_script', '');
           self.ts.registerLocal('angular_objects', new pb.TemplateValue(pb.ClientJs.getAngularObjects(objects), false));
-          self.ts.load('admin/settings/parameter_settings', function(err, result) {
+          self.ts.load('admin/settings/twitter_parameter_settings', function(err, result) {
               cb({content: result});
           });
       });
