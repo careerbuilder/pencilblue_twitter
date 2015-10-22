@@ -64,4 +64,4 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
   };
 
   return SaveParameterSettings;
-}
+};
