@@ -19,8 +19,8 @@ module.exports = function TwitterModule(pb){
 
 		var queryService = new pb.SiteQueryService({site: site, onlyThisSite: true});
 		pb.log.silly('Preparing to delete twitter plugin settings');
-		queryService.delete({site: site}, 'twitter_plugin_settings', function (err, commandResult) {
-			if (err || !commandResult) {
+		queryService.delete({site: site}, 'twitter_plugin_settings', function (err) {
+			if (pb.util.isError(err)) {
 				pb.log.error("Error: Failed to remove twitter plugin settings for site " + site + ". ERR[" + err.stack + "]");
 				return cb(null, true);
 			}
