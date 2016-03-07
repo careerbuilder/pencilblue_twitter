@@ -4,15 +4,15 @@
     "url": "https://github.com/silverelizard/pencilblue_twitter"
   },
   "devDependencies": {
-    "async": "0.2.9",
-    "chai": "^1.10.0",
-    "istanbul": "^0.3.7",
-    "mocha": "^2.1.0",
-    "mocha-istanbul": "^0.2.0",
-    "sinon": "^1.12.2"
+    "async": "~1.5.2",
+    "mocha": "^2.4.5",
+    "istanbul": "^0.4.2",
+    "sinon": "^1.17.3",
+    "chai": "^3.5.0",
+    "mocha-istanbul": "^0.2.0"
   },
   "dependencies": {
-    "moment": "^2.10.6",
+    "moment": "^2.11.2",
     "twitter": "^1.2.5"
   },
   "scripts": {
