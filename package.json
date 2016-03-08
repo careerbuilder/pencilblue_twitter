@@ -1,7 +1,7 @@
 {
   "repository": {
     "type": "git",
-    "url": "https://github.com/silverelizard/pencilblue_twitter"
+    "url": "https://github.com/careerbuilder/pencilblue_twitter"
   },
   "devDependencies": {
     "async": "~1.5.2",
