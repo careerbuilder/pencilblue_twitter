@@ -1,20 +1,3 @@
-/*
- Copyright (C) 2015  Careerbuilder, LLC
-
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 module.exports = function SaveParameterSettingsControllerModule(pb) {
   var util = pb.util;
 
@@ -25,39 +8,39 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
 
   SaveParameterSettings.prototype.render = function(cb) {
     var self = this;
-    self.getJSONPostParams(function(err, post) {
-      delete post._id;
+    self.siteQueryService = new pb.SiteQueryService({site:self.site, onlyThisSite:true});
 
-      var opts = {
-          where: {settings_type: 'api_parameter'}
-      };
-      var dao = new pb.DAO();
-      dao.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
-        if (util.isError(err)) {
-          return self.reqHandler.serveError(err);
-        }
-        if(parameterSettings.length > 0) {
-          parameterSettings = parameterSettings[0];
-          pb.DocumentCreator.update(post, parameterSettings);
-        }
-        else {
-          parameterSettings = pb.DocumentCreator.create('twitter_plugin_settings', post);
-          parameterSettings.settings_type = 'api_parameter';
+    delete self.body._id;
+
+    var opts = {
+        where: {settings_type: 'api_parameter'}
+    };
+    self.siteQueryService.q('twitter_plugin_settings', opts, function(err, parameterSettings) {
+      if (util.isError(err)) {
+        return self.reqHandler.serveError(err);
+      }
+      if(parameterSettings.length > 0) {
+        parameterSettings = parameterSettings[0];
+        pb.DocumentCreator.update(self.body, parameterSettings);
+      }
+      else {
+        parameterSettings = pb.DocumentCreator.create('twitter_plugin_settings', self.body);
+        parameterSettings.settings_type = 'api_parameter';
+      }
+
+      self.siteQueryService.save(parameterSettings, function(err, result) {
+        if(util.isError(err))  {
+          cb({
+            code: 500,
+            content: pb.BaseController.apiResponse(pb.BaseController.API_FAILURE, self.ls.get('ERROR_SAVING'), result)
+          });
+          return;
         }
 
-        dao.save(parameterSettings, function(err, result) {
-          if(util.isError(err))  {
-            cb({
-              code: 500,
-              content: pb.BaseController.apiResponse(pb.BaseController.API_FAILURE, self.ls.get('ERROR_SAVING'), result)
-            });
-            return;
-          }
-
-          cb({content: pb.BaseController.apiResponse(pb.BaseController.API_SUCCESS, self.ls.get('TWITTER_SETTINGS') + ' ' + self.ls.get('SAVED'))});
-        });
+        cb({content: pb.BaseController.apiResponse(pb.BaseController.API_SUCCESS, self.ls.get('TWITTER_SETTINGS') + ' ' + self.ls.get('SAVED'))});
       });
     });
+
   };
 
   SaveParameterSettings.prototype.getSanitizationRules = function() {
@@ -70,8 +53,9 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
     var routes = [
       {
         method: 'post',
-        path: '/actions/admin/plugins/settings/twitter/parameter',
+        path: '/actions/admin/plugins/settings/pencilblue_twitter/parameter',
         auth_required: true,
+        request_body: ['application/json'],
         access_level: pb.SecurityService.ACCESS_EDITOR,
         content_type: 'text/html'
       }
@@ -80,4 +64,4 @@ module.exports = function SaveParameterSettingsControllerModule(pb) {
   };
 
   return SaveParameterSettings;
-}
+};

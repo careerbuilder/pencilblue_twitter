@@ -1,20 +1,22 @@
 {
   "repository": {
     "type": "git",
-    "url": "https://github.com/silverelizard/pencilblue_twitter"
+    "url": "https://github.com/careerbuilder/pencilblue_twitter"
   },
   "devDependencies": {
-    "async": "0.2.9",
-    "chai": "^1.10.0",
-    "istanbul": "^0.3.7",
-    "mocha": "^2.1.0",
-    "mocha-istanbul": "^0.2.0",
-    "sinon": "^1.12.2"
+    "async": "~1.5.2",
+    "mocha": "^2.4.5",
+    "istanbul": "^0.4.2",
+    "sinon": "^1.17.3",
+    "chai": "^3.5.0",
+    "mocha-istanbul": "^0.2.0"
   },
   "dependencies": {
+    "moment": "^2.11.2",
     "twitter": "^1.2.5"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --recursive --reporter nyan"
+    "test": "./node_modules/.bin/mocha --recursive --reporter nyan",
+    "posttest": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive > /dev/null; genhtml coverage/lcov.info --output-directory reports/"
   }
 }
