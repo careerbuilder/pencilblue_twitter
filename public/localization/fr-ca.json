@@ -1,0 +1,9 @@
+{
+    "ADD_PARAM": "Add New Parameter",
+    "TWITTER_PARAMETER_DESCRIPTION": "The plugin implements Twitter's RESTful API statuses/user_timeline endpoint. Documentation on accepted parameters can be found <a href=\"https://dev.twitter.com/rest/reference/get/statuses/user_timeline\">here</a>. <strong>Either user_id or screen_name must be defined.</strong> You may also add optional parameters if you choose. The form below will validate your settings follow the Twitter API's requirements, but may not catch all errors. Please be sure to read the documentation in order to understand the parameters and their values.",
+    "PARAMETER_TYPE": "Parameter Type",
+    "PARAMETER_VALUE": "Parameter Value",
+    "TWITTER": "TWITTER",
+    "TWITTER_SETTINGS": "Return to Twitter Settings",
+    "TWITTER_TITLE": "Title"
+}
