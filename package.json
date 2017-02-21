@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "moment": "^2.11.2",
-    "twitter": "^1.2.5"
+    "twitter": "1.2.5"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --recursive --reporter nyan",
