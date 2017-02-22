@@ -32,6 +32,7 @@
     }
   ],
   "dependencies": {
+    "moment": "^2.11.2",
     "twitter": "1.2.5"
   },
   "permissions": { },
